@@ -10,9 +10,6 @@ public class Category
     [StringLength(50)]
     public string Name { get; set; } = string.Empty;
 
-    [StringLength(20)]
-    public string? Icon { get; set; }
-
     public ICollection<SocialActivity> SocialActivities { get; set; }
         = new List<SocialActivity>();
 }
