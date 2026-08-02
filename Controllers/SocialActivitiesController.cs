@@ -35,6 +35,27 @@ public class SocialActivitiesController : Controller
         return View(activities);
     }
 
+    public async Task<IActionResult> Details(int? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        var userId = _userManager.GetUserId(User);
+
+        var activity = await _context.SocialActivities
+            .Include(a => a.Category)
+            .FirstOrDefaultAsync(a => a.Id == id && a.UserId == userId);
+
+        if (activity == null)
+        {
+            return NotFound();
+        }
+
+        return View(activity);
+    }
+
     [HttpGet]
     public async Task<IActionResult> Create()
     {

@@ -1,0 +1,88 @@
+@model SocialCharge.Models.SocialActivity
+
+@{
+    ViewData["Title"] = "Activity Details";
+}
+
+<div class="container mt-4">
+    <div class="mb-4">
+        <h1>Activity Details</h1>
+        <p class="text-muted">View full information about this activity.</p>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h4 class="mb-0">@Model.Title</h4>
+        </div>
+
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">วันที่และเวลา</dt>
+                <dd class="col-sm-9">@Model.ActivityDate.ToString("dd/MM/yyyy HH:mm")</dd>
+
+                <dt class="col-sm-3">หมวดหมู่</dt>
+                <dd class="col-sm-9">@Model.Category?.Name</dd>
+
+                <dt class="col-sm-3">พลังงานก่อนทำกิจกรรม</dt>
+                <dd class="col-sm-9">@Model.EnergyBeforeText</dd>
+
+                <dt class="col-sm-3">พลังงานหลังทำกิจกรรม</dt>
+                <dd class="col-sm-9">@Model.EnergyAfterText</dd>
+
+                <dt class="col-sm-3">เปลี่ยนแปลง</dt>
+                <dd class="col-sm-9">@Model.EnergyChangeText</dd>
+
+                <dt class="col-sm-3">สถานะ</dt>
+                <dd class="col-sm-9">
+                    @if (Model.EnergyStatus == "Charged")
+                    {
+                        <span class="badge bg-success">@Model.EnergyStatus</span>
+                    }
+                    else if (Model.EnergyStatus == "Slightly Charged")
+                    {
+                        <span class="badge bg-primary">@Model.EnergyStatus</span>
+                    }
+                    else if (Model.EnergyStatus == "Neutral")
+                    {
+                        <span class="badge bg-secondary">@Model.EnergyStatus</span>
+                    }
+                    else if (Model.EnergyStatus == "Slightly Drained")
+                    {
+                        <span class="badge bg-warning text-dark">@Model.EnergyStatus</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">@Model.EnergyStatus</span>
+                    }
+                </dd>
+
+                <dt class="col-sm-3">ความสนุก</dt>
+                <dd class="col-sm-9">@Model.EnjoymentText</dd>
+
+                <dt class="col-sm-3">จำนวนคนที่พบ</dt>
+                <dd class="col-sm-9">@Model.PeopleCount</dd>
+
+                <dt class="col-sm-3">หมายเหตุ</dt>
+                <dd class="col-sm-9">
+                    @if (string.IsNullOrWhiteSpace(Model.Note))
+                    {
+                        <span class="text-muted">ไม่มีหมายเหตุ</span>
+                    }
+                    else
+                    {
+                        @Model.Note
+                    }
+                </dd>
+
+                <dt class="col-sm-3">วันที่สร้างข้อมูล</dt>
+                <dd class="col-sm-9">@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</dd>
+            </dl>
+
+            <div class="d-flex gap-2">
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    Back to List
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

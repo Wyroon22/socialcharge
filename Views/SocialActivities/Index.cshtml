@@ -36,6 +36,7 @@
                     <th>สถานะ</th>
                     <th>ความสนุก</th>
                     <th>จำนวนคน</th>
+                    <th>จัดการ</th>
                 </tr>
             </thead>
             <tbody>
@@ -72,6 +73,11 @@
                         </td>
                         <td>@item.EnjoymentText</td>
                         <td>@item.PeopleCount</td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info">
+                                Details
+                            </a>
+                        </td>
                     </tr>
                 }
             </tbody>
