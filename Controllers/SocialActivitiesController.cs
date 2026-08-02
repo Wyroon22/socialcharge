@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SocialCharge.Data;
 using SocialCharge.Models;
+using SocialCharge.ViewModels;
 
 namespace SocialCharge.Controllers;
 
@@ -34,6 +35,49 @@ public class SocialActivitiesController : Controller
 
         return View(activities);
     }
+
+    public async Task<IActionResult> Dashboard()
+    {
+        var userId = _userManager.GetUserId(User);
+
+        if (userId == null)
+        {
+            return Challenge();
+        }
+
+        var activities = await _context.SocialActivities
+            .Include(a => a.Category)
+            .Where(a => a.UserId == userId)
+            .ToListAsync();
+
+        var model = new DashboardViewModel
+        {
+            TotalActivities = activities.Count
+        };
+
+        if (activities.Any())
+        {
+            model.AverageEnergyBefore = Math.Round(activities.Average(a => a.EnergyBefore), 1);
+            model.AverageEnergyAfter = Math.Round(activities.Average(a => a.EnergyAfter), 1);
+            model.AverageEnergyChange = Math.Round(activities.Average(a => a.EnergyChange), 1);
+
+            model.MostChargedActivity = activities
+                .OrderByDescending(a => a.EnergyChange)
+                .FirstOrDefault();
+
+            model.MostDrainedActivity = activities
+                .OrderBy(a => a.EnergyChange)
+                .FirstOrDefault();
+
+            model.ChargedCount = activities.Count(a => a.EnergyStatus == "Charged");
+            model.SlightlyChargedCount = activities.Count(a => a.EnergyStatus == "Slightly Charged");
+            model.NeutralCount = activities.Count(a => a.EnergyStatus == "Neutral");
+            model.SlightlyDrainedCount = activities.Count(a => a.EnergyStatus == "Slightly Drained");
+            model.DrainedCount = activities.Count(a => a.EnergyStatus == "Drained");
+        }
+
+            return View(model);
+        }
 
     public async Task<IActionResult> Details(int? id)
     {

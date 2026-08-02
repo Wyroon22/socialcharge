@@ -1,0 +1,146 @@
+@model SocialCharge.ViewModels.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1>Dashboard</h1>
+            <p class="text-muted">Summary of how your activities affect your energy.</p>
+        </div>
+
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            Back to Activities
+        </a>
+    </div>
+
+    @if (Model.TotalActivities == 0)
+    {
+        <div class="alert alert-info">
+            ยังไม่มีข้อมูลกิจกรรมสำหรับสรุปผล ลองเพิ่มกิจกรรมแรกก่อน
+        </div>
+
+        <a asp-action="Create" class="btn btn-primary">
+            + Add Activity
+        </a>
+    }
+    else
+    {
+        <div class="row mb-4">
+            <div class="col-md-3 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h6 class="text-muted">Total Activities</h6>
+                        <h2>@Model.TotalActivities</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h6 class="text-muted">Avg. Energy Before</h6>
+                        <h2>@Model.AverageEnergyBefore</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h6 class="text-muted">Avg. Energy After</h6>
+                        <h2>@Model.AverageEnergyAfter</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h6 class="text-muted">Avg. Change</h6>
+                        <h2>
+                            @(Model.AverageEnergyChange > 0 ? $"+{Model.AverageEnergyChange}" : Model.AverageEnergyChange.ToString())
+                        </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-6 mb-3">
+                <div class="card shadow-sm border-success">
+                    <div class="card-header bg-success text-white">
+                        Most Charged Activity
+                    </div>
+                    <div class="card-body">
+                        @if (Model.MostChargedActivity != null)
+                        {
+                            <h5>@Model.MostChargedActivity.Title</h5>
+                            <p class="mb-1">Category: @Model.MostChargedActivity.Category?.Name</p>
+                            <p class="mb-1">Change: @Model.MostChargedActivity.EnergyChangeText</p>
+                            <p class="mb-0">Status: @Model.MostChargedActivity.EnergyStatus</p>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <div class="card shadow-sm border-danger">
+                    <div class="card-header bg-danger text-white">
+                        Most Drained Activity
+                    </div>
+                    <div class="card-body">
+                        @if (Model.MostDrainedActivity != null)
+                        {
+                            <h5>@Model.MostDrainedActivity.Title</h5>
+                            <p class="mb-1">Category: @Model.MostDrainedActivity.Category?.Name</p>
+                            <p class="mb-1">Change: @Model.MostDrainedActivity.EnergyChangeText</p>
+                            <p class="mb-0">Status: @Model.MostDrainedActivity.EnergyStatus</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-header">
+                Energy Status Summary
+            </div>
+
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="badge bg-success">Charged</span></td>
+                            <td>@Model.ChargedCount</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-primary">Slightly Charged</span></td>
+                            <td>@Model.SlightlyChargedCount</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-secondary">Neutral</span></td>
+                            <td>@Model.NeutralCount</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-warning text-dark">Slightly Drained</span></td>
+                            <td>@Model.SlightlyDrainedCount</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-danger">Drained</span></td>
+                            <td>@Model.DrainedCount</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>

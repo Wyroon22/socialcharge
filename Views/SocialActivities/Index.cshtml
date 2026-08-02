@@ -11,9 +11,15 @@
             <p class="text-muted">Track how each activity changes your energy.</p>
         </div>
 
-        <a class="btn btn-primary" asp-controller="SocialActivities" asp-action="Create">
-            + Add Activity
-        </a>
+        <div class="d-flex gap-2">
+            <a class="btn btn-outline-primary" asp-controller="SocialActivities" asp-action="Dashboard">
+                Dashboard
+            </a>
+
+            <a class="btn btn-primary" asp-controller="SocialActivities" asp-action="Create">
+                + Add Activity
+            </a>
+        </div>
     </div>
 
     @if (!Model.Any())
