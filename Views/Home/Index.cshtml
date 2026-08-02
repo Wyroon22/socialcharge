@@ -1,8 +1,82 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-5">
+    <div class="row align-items-center mb-5">
+        <div class="col-md-7">
+            <h1 class="display-4 fw-bold mb-3">
+                SocialCharge 🔋
+            </h1>
+
+            <p class="lead text-muted mb-4">
+                Track how your daily social activities affect your energy, enjoyment, and social battery.
+            </p>
+
+            <div class="d-flex gap-2">
+                <a asp-controller="SocialActivities" asp-action="Index" class="btn btn-primary btn-lg">
+                    Go to Activities
+                </a>
+
+                <a asp-controller="SocialActivities" asp-action="Dashboard" class="btn btn-outline-primary btn-lg">
+                    View Dashboard
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-5 mt-4 mt-md-0">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <h5 class="card-title mb-3">What can you track?</h5>
+
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-2">✅ Activity title and category</li>
+                        <li class="mb-2">✅ Energy before and after</li>
+                        <li class="mb-2">✅ Enjoyment score</li>
+                        <li class="mb-2">✅ People count</li>
+                        <li class="mb-2">✅ Personal notes</li>
+                        <li>✅ Dashboard summary</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row text-center">
+        <div class="col-md-4 mb-3">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <h3>📝</h3>
+                    <h5>Record Activities</h5>
+                    <p class="text-muted">
+                        Add daily activities and keep track of your social energy.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <h3>⚡</h3>
+                    <h5>Analyze Energy</h5>
+                    <p class="text-muted">
+                        See whether each activity charges or drains your energy.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <h3>📊</h3>
+                    <h5>View Dashboard</h5>
+                    <p class="text-muted">
+                        Review summaries, averages, and activity patterns.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
