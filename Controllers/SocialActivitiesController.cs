@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SocialCharge.Data;
 using SocialCharge.Models;
@@ -32,5 +33,67 @@ public class SocialActivitiesController : Controller
             .ToListAsync();
 
         return View(activities);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Create()
+    {
+        await PopulateCategoriesDropDownListAsync();
+
+        var activity = new SocialActivity
+        {
+            ActivityDate = DateTime.Now,
+            EnergyBefore = 5,
+            EnergyAfter = 5,
+            EnjoymentScore = 5,
+            PeopleCount = 0
+        };
+
+        return View(activity);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(
+        [Bind("CategoryId,Title,ActivityDate,EnergyBefore,EnergyAfter,EnjoymentScore,PeopleCount,Note")]
+        SocialActivity socialActivity)
+    {
+        var userId = _userManager.GetUserId(User);
+
+        if (userId == null)
+        {
+            return Challenge();
+        }
+
+        socialActivity.UserId = userId;
+        socialActivity.CreatedAt = DateTime.UtcNow;
+
+        ModelState.Remove(nameof(SocialActivity.UserId));
+
+        if (ModelState.IsValid)
+        {
+            _context.SocialActivities.Add(socialActivity);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        await PopulateCategoriesDropDownListAsync(socialActivity.CategoryId);
+
+        return View(socialActivity);
+    }
+
+    private async Task PopulateCategoriesDropDownListAsync(object? selectedCategory = null)
+    {
+        var categories = await _context.Categories
+            .OrderBy(c => c.Name)
+            .ToListAsync();
+
+        ViewData["CategoryId"] = new SelectList(
+            categories,
+            "Id",
+            "Name",
+            selectedCategory
+        );
     }
 }

@@ -11,7 +11,7 @@
             <p class="text-muted">Track how each activity changes your energy.</p>
         </div>
 
-        <a class="btn btn-primary" href="#">
+        <a class="btn btn-primary" asp-controller="SocialActivities" asp-action="Create">
             + Add Activity
         </a>
     </div>
@@ -24,7 +24,7 @@
     }
     else
     {
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover align-middle">
             <thead>
                 <tr>
                     <th>วันที่</th>
@@ -45,11 +45,32 @@
                         <td>@item.ActivityDate.ToString("dd/MM/yyyy HH:mm")</td>
                         <td>@item.Title</td>
                         <td>@item.Category?.Name</td>
-                        <td>@item.EnergyBefore</td>
-                        <td>@item.EnergyAfter</td>
-                        <td>@item.EnergyChange</td>
-                        <td>@item.EnergyStatus</td>
-                        <td>@item.EnjoymentScore</td>
+                        <td>@item.EnergyBeforeText</td>
+                        <td>@item.EnergyAfterText</td>
+                        <td>@item.EnergyChangeText</td>
+                        <td>
+                            @if (item.EnergyStatus == "Charged")
+                            {
+                                <span class="badge bg-success">@item.EnergyStatus</span>
+                            }
+                            else if (item.EnergyStatus == "Slightly Charged")
+                            {
+                                <span class="badge bg-primary">@item.EnergyStatus</span>
+                            }
+                            else if (item.EnergyStatus == "Neutral")
+                            {
+                                <span class="badge bg-secondary">@item.EnergyStatus</span>
+                            }
+                            else if (item.EnergyStatus == "Slightly Drained")
+                            {
+                                <span class="badge bg-warning text-dark">@item.EnergyStatus</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">@item.EnergyStatus</span>
+                            }
+                        </td>
+                        <td>@item.EnjoymentText</td>
                         <td>@item.PeopleCount</td>
                     </tr>
                 }
