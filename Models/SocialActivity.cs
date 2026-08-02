@@ -68,6 +68,24 @@ public class SocialActivity
     public string EnergyChangeText =>
         EnergyChange > 0 ? $"+{EnergyChange}" : EnergyChange.ToString();
 
+    [NotMapped]
+    public string EnergyChangeDisplayClass => EnergyChange switch
+        {
+            > 0 => "text-success fw-semibold",
+            < 0 => "text-danger fw-semibold",
+            _ => "text-secondary fw-semibold"
+        };
+
+    [NotMapped]
+    public string EnergyStatusBadgeClass => EnergyStatus switch
+    {
+        "Charged" => "badge bg-success",
+        "Slightly Charged" => "badge bg-primary",
+        "Neutral" => "badge bg-secondary",
+        "Slightly Drained" => "badge bg-warning text-dark",
+        _ => "badge bg-danger"
+    };
+
     private static string GetEnergyText(int score)
     {
         return score switch
