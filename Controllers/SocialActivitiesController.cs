@@ -131,6 +131,53 @@ public async Task<IActionResult> Edit(
     }
 
     [HttpGet]
+public async Task<IActionResult> Delete(int? id)
+{
+    if (id == null)
+    {
+        return NotFound();
+    }
+
+    var userId = _userManager.GetUserId(User);
+
+    var activity = await _context.SocialActivities
+        .Include(a => a.Category)
+        .FirstOrDefaultAsync(a => a.Id == id && a.UserId == userId);
+
+    if (activity == null)
+    {
+        return NotFound();
+    }
+
+    return View(activity);
+        }
+
+            [HttpPost, ActionName("Delete")]
+            [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var userId = _userManager.GetUserId(User);
+
+        if (userId == null)
+        {
+            return Challenge();
+        }
+
+        var activity = await _context.SocialActivities
+            .FirstOrDefaultAsync(a => a.Id == id && a.UserId == userId);
+
+        if (activity == null)
+        {
+            return NotFound();
+        }
+
+        _context.SocialActivities.Remove(activity);
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpGet]
     public async Task<IActionResult> Create()
     {
         await PopulateCategoriesDropDownListAsync();

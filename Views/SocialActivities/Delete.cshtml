@@ -1,13 +1,17 @@
 @model SocialCharge.Models.SocialActivity
 
 @{
-    ViewData["Title"] = "Activity Details";
+    ViewData["Title"] = "Delete Activity";
 }
 
 <div class="container mt-4">
     <div class="mb-4">
-        <h1>Activity Details</h1>
-        <p class="text-muted">View full information about this activity.</p>
+        <h1>Delete Activity</h1>
+        <p class="text-muted">Confirm that you want to delete this activity.</p>
+    </div>
+
+    <div class="alert alert-danger">
+        คุณแน่ใจไหมว่าต้องการลบกิจกรรมนี้? เมื่อลบแล้วจะไม่สามารถกู้คืนได้
     </div>
 
     <div class="card shadow-sm">
@@ -23,10 +27,10 @@
                 <dt class="col-sm-3">หมวดหมู่</dt>
                 <dd class="col-sm-9">@Model.Category?.Name</dd>
 
-                <dt class="col-sm-3">พลังงานก่อนทำกิจกรรม</dt>
+                <dt class="col-sm-3">พลังงานก่อน</dt>
                 <dd class="col-sm-9">@Model.EnergyBeforeText</dd>
 
-                <dt class="col-sm-3">พลังงานหลังทำกิจกรรม</dt>
+                <dt class="col-sm-3">พลังงานหลัง</dt>
                 <dd class="col-sm-9">@Model.EnergyAfterText</dd>
 
                 <dt class="col-sm-3">เปลี่ยนแปลง</dt>
@@ -73,24 +77,21 @@
                         @Model.Note
                     }
                 </dd>
-
-                <dt class="col-sm-3">วันที่สร้างข้อมูล</dt>
-                <dd class="col-sm-9">@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</dd>
             </dl>
 
-            <div class="d-flex gap-2">
-                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
-                    Edit
-                </a>
+            <form asp-action="Delete" method="post">
+                <input type="hidden" asp-for="Id" />
 
-                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">
-                    Delete
-                </a>
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-danger">
+                        Confirm Delete
+                    </button>
 
-                <a asp-action="Index" class="btn btn-outline-secondary">
-                    Back to List
-                </a>
-            </div>
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
+                </div>
+            </form>
         </div>
     </div>
 </div>
