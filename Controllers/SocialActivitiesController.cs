@@ -57,6 +57,80 @@ public class SocialActivitiesController : Controller
     }
 
     [HttpGet]
+public async Task<IActionResult> Edit(int? id)
+{
+    if (id == null)
+    {
+        return NotFound();
+    }
+
+    var userId = _userManager.GetUserId(User);
+
+    var activity = await _context.SocialActivities
+        .FirstOrDefaultAsync(a => a.Id == id && a.UserId == userId);
+
+    if (activity == null)
+    {
+        return NotFound();
+    }
+
+    await PopulateCategoriesDropDownListAsync(activity.CategoryId);
+
+    return View(activity);
+}
+
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Edit(
+    int id,
+    [Bind("Id,CategoryId,Title,ActivityDate,EnergyBefore,EnergyAfter,EnjoymentScore,PeopleCount,Note")]
+    SocialActivity formActivity)
+{
+    if (id != formActivity.Id)
+    {
+        return NotFound();
+    }
+
+    var userId = _userManager.GetUserId(User);
+
+    if (userId == null)
+    {
+        return Challenge();
+    }
+
+    var activity = await _context.SocialActivities
+        .FirstOrDefaultAsync(a => a.Id == id && a.UserId == userId);
+
+    if (activity == null)
+    {
+        return NotFound();
+    }
+
+    ModelState.Remove(nameof(SocialActivity.UserId));
+
+    if (ModelState.IsValid)
+    {
+        activity.CategoryId = formActivity.CategoryId;
+        activity.Title = formActivity.Title;
+        activity.ActivityDate = formActivity.ActivityDate;
+        activity.EnergyBefore = formActivity.EnergyBefore;
+        activity.EnergyAfter = formActivity.EnergyAfter;
+        activity.EnjoymentScore = formActivity.EnjoymentScore;
+        activity.PeopleCount = formActivity.PeopleCount;
+        activity.Note = formActivity.Note;
+        activity.UpdatedAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+    }
+
+        await PopulateCategoriesDropDownListAsync(formActivity.CategoryId);
+
+        return View(formActivity);
+    }
+
+    [HttpGet]
     public async Task<IActionResult> Create()
     {
         await PopulateCategoriesDropDownListAsync();

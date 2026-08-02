@@ -74,9 +74,15 @@
                         <td>@item.EnjoymentText</td>
                         <td>@item.PeopleCount</td>
                         <td>
-                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info">
-                                Details
-                            </a>
+                            <div class="d-flex gap-1">
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info">
+                                    Details
+                                </a>
+
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">
+                                    Edit
+                                </a>
+                            </div>
                         </td>
                     </tr>
                 }
