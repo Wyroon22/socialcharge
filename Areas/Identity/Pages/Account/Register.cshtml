@@ -1,0 +1,102 @@
+﻿@page
+@model RegisterModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="auth-page">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="auth-card card">
+                    <div class="row g-0">
+                        <div class="col-md-5">
+                            <div class="auth-side">
+                                <div class="auth-logo">⚡</div>
+
+                                <h2>Create your account</h2>
+
+                                <p>
+                                    Start recording your activities and discover
+                                    which moments charge or drain your social battery.
+                                </p>
+
+                                <div class="auth-feature">
+                                    <strong>Track. Reflect. Improve.</strong>
+                                    <span>Build awareness from your own daily activity data.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-7">
+                            <div class="auth-form">
+                                <h1 class="mb-2">Register</h1>
+                                <p class="text-muted mb-4">
+                                    Create an account to start using SocialCharge.
+                                </p>
+
+                                <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+
+                                    <div class="mb-3">
+                                        <label asp-for="Input.Email" class="form-label">Email</label>
+                                        <input asp-for="Input.Email"
+                                                class="form-control form-control-lg"
+                                                autocomplete="username"
+                                                aria-required="true"
+                                                placeholder="name@example.com" />
+                                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label asp-for="Input.Password" class="form-label">Password</label>
+                                        <input asp-for="Input.Password"
+                                                class="form-control form-control-lg"
+                                                autocomplete="new-password"
+                                                aria-required="true"
+                                                placeholder="Create a password" />
+                                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label asp-for="Input.ConfirmPassword" class="form-label">Confirm Password</label>
+                                        <input asp-for="Input.ConfirmPassword"
+                                                class="form-control form-control-lg"
+                                                autocomplete="new-password"
+                                                aria-required="true"
+                                                placeholder="Confirm your password" />
+                                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                                    </div>
+
+                                    <button id="registerSubmit" type="submit" class="btn btn-primary btn-lg w-100">
+                                        Create account
+                                    </button>
+
+                                    <div class="text-center mt-4">
+                                        <span class="text-muted">Already have an account?</span>
+                                        <a class="auth-link fw-semibold"
+                                                asp-page="./Login"
+                                                asp-route-returnUrl="@Model.ReturnUrl">
+                                            Log in
+                                        </a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-3">
+                    <a asp-controller="Home" asp-action="Index" class="auth-link">
+                        ← Back to Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
