@@ -216,6 +216,10 @@ The application is designed to remain usable across different screen sizes, incl
 
 ![SocialCharge Home](screenshot/SocialCharge%20Home.png)
 
+### Dashboard
+
+![SocialCharge Dashboard](screenshot/SocialCharge%20Dashborad.png)
+
 ### Activity List
 
 ![SocialCharge Activities](screenshot/SocialCharge%20Activities.png)
